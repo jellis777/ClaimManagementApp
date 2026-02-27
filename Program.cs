@@ -1,3 +1,6 @@
+
+using Microsoft.EntityFrameworkCore;
+using ClaimManagementAPI.Data;
 using ClaimManagementAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ClaimService>();
+builder.Services.AddScoped<ClaimService>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=claims.db"));
 
 var app = builder.Build();
 
