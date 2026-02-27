@@ -5,6 +5,15 @@ using ClaimManagementAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReact",
+    policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 // Add services to the container
 builder.Services.AddControllers();
 
@@ -18,6 +27,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=claims.db"));
 
 var app = builder.Build();
+
+app.UseCors("AllowReact");
 
 if (app.Environment.IsDevelopment())
 {
